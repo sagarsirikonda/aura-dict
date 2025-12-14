@@ -88,9 +88,3 @@ Automatically generates a `dist-firefox` folder with the necessary manifest adju
 - **Frontend:** React, TypeScript, Tailwind CSS  
 - **Build Tool:** Vite + CRXJS  
 - **AI Model:** Llama 3.1-8B-Instant (Groq API)
-
----
-
-## 📄 License
-
-MIT License — feel free to fork and modify.

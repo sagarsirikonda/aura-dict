@@ -25,7 +25,7 @@ To use this extension, you need to set it up locally with your own API key.
 Clone the project and install dependencies:
 
 ```bash
-git clone [https://github.com/sagarsirikonda/aura-dict.git](https://github.com/sagarsirikonda/aura-dict.git)
+git clone https://github.com/sagarsirikonda/aura-dict.git
 cd aura-dict
 npm install
 ```

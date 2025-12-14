@@ -1,0 +1,37 @@
+{
+  "manifest_version": 3,
+  "name": "Aura",
+  "short_name": "Aura",
+  "version": "1.0.0",
+  "action": {
+    "default_popup": "src/popup/index.html",
+    "default_icon": {
+      "16": "icon16.png",
+      "48": "icon48.png",
+      "128": "icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icon16.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
+  },
+  "background": {
+    "service_worker": "src/background/index.ts",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["src/content/index.tsx"]
+    }
+  ],
+  "permissions": [
+    "activeTab", 
+    "contextMenus",
+    "storage" 
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ]
+}

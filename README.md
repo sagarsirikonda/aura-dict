@@ -26,7 +26,7 @@ Clone the project and install dependencies:
 
 ```bash
 git clone [https://github.com/sagarsirikonda/aura-dict.git](https://github.com/sagarsirikonda/aura-dict.git)
-cd context-dictionary
+cd aura-dict
 npm install
 ```
 

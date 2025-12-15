@@ -25,8 +25,8 @@ To use this extension, you need to set it up locally with your own API key.
 Clone the project and install dependencies:
 
 ```bash
-git clone [https://github.com/sagarsirikonda/aura-dict.git](https://github.com/sagarsirikonda/aura-dict.git)
-cd context-dictionary
+git clone https://github.com/sagarsirikonda/aura-dict.git
+cd aura-dict
 npm install
 ```
 
@@ -108,9 +108,3 @@ Standard Firefox requires extensions to be signed. Follow these steps to generat
 - **Frontend:** React, TypeScript, Tailwind CSS  
 - **Build Tool:** Vite + CRXJS  
 - **AI Model:** Llama 3.1-8B-Instant (Groq API)
-
----
-
-## 📄 License
-
-MIT License — feel free to fork and modify.

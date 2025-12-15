@@ -33,7 +33,10 @@ if (backgroundScript) {
     manifest.browser_specific_settings = {
         gecko: {
             id: "aura@sagarsirikonda",
-            strict_min_version: "109.0"
+            strict_min_version: "115.0",
+            data_collection_permissions: {
+                required: ["none"]
+            }
         }
     };
 

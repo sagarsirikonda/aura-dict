@@ -24,24 +24,31 @@ chrome.runtime.onMessage.addListener((
 
 async function fetchDefinition(word: string, context: string) {
     const prompt = `
-    You are a context-aware dictionary assistant.
-    The user is reading a webpage and wants to know the meaning of the term: "${word}".
-    
-    Here is the surrounding context where the term appears:
-    " ... ${context} ... "
-    
-    Task:
-    1. Define "${word}" strictly based on how it is used in the context.
-    2. If it is an acronym, provide the full form.
-    3. Be concise (max 2 sentences).
-    4. Provide a "category" tag (e.g., Medical, Tech, Slang).
+    ### ROLE
+You are an Expert Semantic Analysis Engine. Your goal is to perform "Word Sense Disambiguation" (WSD) to define the user's selection with extreme precision.
 
-    Output format (JSON only):
-    {
-      "definition": "The definition here...",
-      "expansion": "Full Form (if acronym) or null",
-      "category": "Category Name"
-    }
+### CORE PROTOCOL
+1. **Domain Detection:** Analyze the "Context Snippet" to identify the specific field (e.g., "Medical", "Financial", "Biology", "Python Programming").
+2. **Contextual Locking:** Ignore the dictionary definition of "${word}". Instead, define it *only* as it exists within that detected field.
+3. **Acronym Check:** If "${word}" is an abbreviation in this specific domain, you MUST resolve its full form.
+
+### CONSTRAINTS
+- **Ambiguity Rule:** If the snippet implies "Python" (the snake), DO NOT define "Python" (the code). Trust the snippet signals (keywords like "scales", "zoo", "reptile") over your training bias.
+- **Conciseness:** The definition must be punchy and direct (max 25 words).
+- **Tone:** Objective and professional.
+
+### INPUT DATA
+Context Snippet: "... ${context} ..."
+User Selection: "${word}"
+
+### OUTPUT FORMAT
+Return valid JSON only. No markdown.
+
+{
+  "definition": "The context-specific definition.",
+  "expansion": "Full form if acronym (e.g., 'Return on Investment'), else null.",
+  "category": "The detected domain (e.g. 'Finance', 'Ornithology', 'Slang')"
+}
     `;
 
     try {

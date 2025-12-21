@@ -32,9 +32,8 @@ function getContext(selection: Selection): string {
     if (!selection.anchorNode) return "";
 
     let currentNode: Node | null = selection.anchorNode;
-    const blockTags = ['P', 'DIV', 'LI', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'ARTICLE', 'SECTION'];
+    const blockTags = ['P', 'DIV', 'LI', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'ARTICLE', 'SECTION', 'BLOCKQUOTE'];
     
-    // Finds the parent block
     while (currentNode && currentNode.nodeName !== 'BODY') {
         if (currentNode.nodeType === Node.ELEMENT_NODE) {
             if (blockTags.includes(currentNode.nodeName)) {
@@ -46,18 +45,36 @@ function getContext(selection: Selection): string {
 
     const element = currentNode as HTMLElement;
     if (!element) return selection.anchorNode.textContent || "";
-    
-    const clone = element.cloneNode(true) as HTMLElement;
 
-    // Remove scripts, styles, and hidden elements from the clone
-    const junkTags = clone.querySelectorAll('script, style, noscript, iframe, svg');
-    junkTags.forEach(tag => tag.remove());
+    let context = element.innerText || ""; 
+    const MAX_CHARS = 1000;
 
-    // Clean text
-    let cleanText = clone.textContent || "";
-    
-    // Collapse multiple spaces into one
-    return cleanText.replace(/\s+/g, ' ').trim(); 
+    // Update: If context is short (< 15 words), look up for more info.
+    if (context.split(/\s+/).length < 15) {
+        
+        // Look Up: Previous Sibling
+        const prev = element.previousElementSibling as HTMLElement;
+        if (prev && prev.innerText) {
+            context = `${prev.innerText}\n${context}`;
+        }
+
+        // Look Up: Parent List (if inside an LI, grab siblings)
+        if (element.tagName === 'LI') {
+            const parentList = element.parentElement;
+            if (parentList && parentList.innerText) {
+                // Prevent duplication
+                if (!context.includes(parentList.innerText)) {
+                    context = `${parentList.innerText}\n${context}`;
+                }
+            }
+        }
+    }
+
+    if (context.length > MAX_CHARS) {
+        context = context.substring(0, MAX_CHARS) + "...";
+    }
+
+    return context.replace(/\s+/g, ' ').trim(); 
 }
 
 // Close the tooltip if the user clicks anywhere else on the page
